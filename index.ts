@@ -69,3 +69,99 @@ export function reverse<T>(lineList: LineList<T>) {
     return push(cdr(lineList), car(lineList));
   }
 }
+
+function _some<T>(
+  lineList: LineList<T>,
+  deal: (
+    curIndex: number,
+    curLineList: LineList<T>,
+    srcLineList: LineList<T>
+  ) => boolean,
+  index: number,
+  srclineList: LineList<T>
+): boolean {
+  if (isEmptyLineList(lineList)) {
+    return false;
+  } else {
+    const res = deal(index, lineList, srclineList);
+    if (res) {
+      return true;
+    } else {
+      return _some(cdr(lineList), deal, index + 1, srclineList);
+    }
+  }
+}
+
+export function some<T>(
+  lineList: LineList<T>,
+  deal: (
+    curIndex: number,
+    curLineList: LineList<T>,
+    srcLineList: LineList<T>
+  ) => boolean
+): boolean {
+  return _some(lineList, deal, 0, lineList);
+}
+
+function _every<T>(
+  lineList: LineList<T>,
+  deal: (
+    curIndex: number,
+    curLineList: LineList<T>,
+    srcLineList: LineList<T>
+  ) => boolean,
+  index: number,
+  srclineList: LineList<T>
+): boolean {
+  if (isEmptyLineList(lineList)) {
+    return true;
+  } else {
+    const res = deal(index, lineList, srclineList);
+    if (res) {
+      return _some(cdr(lineList), deal, index + 1, srclineList);
+    } else {
+      return false;
+    }
+  }
+}
+
+export function every<T>(
+  lineList: LineList<T>,
+  deal: (
+    curIndex: number,
+    curLineList: LineList<T>,
+    srcLineList: LineList<T>
+  ) => boolean
+): boolean {
+  return _every(lineList, deal, 0, lineList);
+}
+
+function _map<T, F>(
+  lineList: LineList<T>,
+  deal: (
+    curIndex: number,
+    curLineList: LineList<T>,
+    srcLineList: LineList<T>
+  ) => F,
+  index: number,
+  srclineList: LineList<T>
+): LineList<F> {
+  if (isEmptyLineList(lineList)) {
+    return emptyLineList;
+  } else {
+    const a = deal(index, lineList, srclineList);
+    const b = _map(cdr(lineList), deal, index + 1, srclineList);
+    return cons(a, b);
+  }
+}
+
+export function map<T, F>(
+  lineList: LineList<T>,
+  deal: (
+    curIndex: number,
+    curLineList: LineList<T>,
+    srcLineList: LineList<T>
+  ) => F
+): LineList<F> {
+  return _map(lineList, deal, 0, lineList);
+}
