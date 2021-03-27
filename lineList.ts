@@ -3,7 +3,7 @@ export interface LineList<T> {
   next: LineList<T> | null;
 }
 
-export function connect<T>(v0: T, v1: LineList<T> | null | T): LineList<T> {
+export function cons<T>(v0: T, v1: LineList<T> | null | T): LineList<T> {
   if (typeof v1 === "object") {
     return {
       value: v0,
@@ -20,14 +20,10 @@ export function connect<T>(v0: T, v1: LineList<T> | null | T): LineList<T> {
   }
 }
 
-export const cons = connect;
+export const connect = cons;
 
-export function car<T>(lineList: LineList<T> | null): LineList<T> | null {
-  if (!lineList) {
-    return null;
-  } else {
-    return lineList;
-  }
+export function car<T>(lineList: LineList<T>): T {
+  return lineList.value;
 }
 
 export const current = car;

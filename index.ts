@@ -1,4 +1,4 @@
-import { LineList, cdr, car } from "./lineList.ts";
+import { LineList, cdr, car, cons } from "./lineList.ts";
 export * from "./lineList.ts";
 export function len<T>(lineList: LineList<T> | null): number {
   if (!lineList) {
@@ -10,12 +10,8 @@ export function len<T>(lineList: LineList<T> | null): number {
 
 export function push<T>(lineList: LineList<T> | null, value: T): LineList<T> {
   if (!lineList) {
-    return {
-      value,
-      next: null,
-    };
+    return cons(value, null);
   } else {
-    lineList.next = push(lineList.next, value);
-    return lineList;
+    return cons(car(lineList), push(cdr(lineList), value));
   }
 }
