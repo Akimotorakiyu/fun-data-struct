@@ -61,3 +61,11 @@ export function getIndex<T>(
     return index === 0 ? car(lineList) : getIndex(cdr(lineList), index - 1);
   }
 }
+
+export function reverse<T>(lineList: LineList<T>) {
+  if (isEmptyLineList(lineList)) {
+    return emptyLineList;
+  } else {
+    return push(cdr(lineList), car(lineList));
+  }
+}
