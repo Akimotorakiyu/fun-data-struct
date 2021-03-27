@@ -1,20 +1,37 @@
-export interface LineList<T> {
-  value: T;
-  next: LineList<T> | null;
+export type EmptyLineList = null;
+export const emptyLineList: EmptyLineList = null;
+
+export function isEmptyLineList<T>(
+  lineList: LineList<T>
+): lineList is EmptyLineList {
+  return lineList ? false : true;
 }
 
-export function cons<T>(v0: T, v1: LineList<T> | null | T): LineList<T> {
+export function isNotEmptyLineList<T>(
+  lineList: LineList<T>
+): lineList is NotEmptyLineList<T> {
+  return lineList ? true : false;
+}
+
+export interface NotEmptyLineList<T> {
+  value: T;
+  next: LineList<T>;
+}
+
+export type LineList<T> = EmptyLineList | NotEmptyLineList<T>;
+
+export function cons<T>(v0: T, v1: LineList<T> | T): NotEmptyLineList<T> {
   if (typeof v1 === "object") {
     return {
       value: v0,
-      next: v1 as LineList<T> | null,
+      next: v1 as LineList<T>,
     };
   } else {
     return {
       value: v0,
       next: {
         value: v1,
-        next: null,
+        next: emptyLineList,
       },
     };
   }
@@ -22,15 +39,15 @@ export function cons<T>(v0: T, v1: LineList<T> | null | T): LineList<T> {
 
 export const connect = cons;
 
-export function car<T>(lineList: LineList<T>): T {
+export function car<T>(lineList: NotEmptyLineList<T>): T {
   return lineList.value;
 }
 
 export const current = car;
 
-export function cdr<T>(lineList: LineList<T> | null): LineList<T> | null {
-  if (!lineList) {
-    return null;
+export function cdr<T>(lineList: LineList<T>): LineList<T> {
+  if (isEmptyLineList(lineList)) {
+    return emptyLineList;
   } else {
     return lineList.next;
   }
