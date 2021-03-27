@@ -118,7 +118,7 @@ function _every<T>(
   } else {
     const res = deal(index, lineList, srclineList);
     if (res) {
-      return _some(cdr(lineList), deal, index + 1, srclineList);
+      return _every(cdr(lineList), deal, index + 1, srclineList);
     } else {
       return false;
     }
@@ -164,4 +164,21 @@ export function map<T, F>(
   ) => F
 ): LineList<F> {
   return _map(lineList, deal, 0, lineList);
+}
+
+export function toString<T>(
+  lineList: LineList<T>,
+  convert: (curLineList: LineList<T>) => string = (curLineList) => {
+    return isNotEmptyLineList(curLineList)
+      ? JSON.stringify(car(curLineList))
+      : "";
+  }
+) {
+  const stringArray: string[] = [];
+  every(lineList, (index, curLineList) => {
+    stringArray.push(convert(curLineList));
+    return true;
+  });
+
+  return stringArray.join();
 }
