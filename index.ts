@@ -15,3 +15,14 @@ export function push<T>(lineList: LineList<T> | null, value: T): LineList<T> {
     return cons(car(lineList), push(cdr(lineList), value));
   }
 }
+
+export function unshift<T>(
+  lineList: LineList<T> | null,
+  value: T
+): LineList<T> {
+  return cons(value, lineList);
+}
+
+export function shift<T>(lineList: LineList<T> | null): LineList<T> | null {
+  return cdr(lineList);
+}
