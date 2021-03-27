@@ -26,3 +26,11 @@ export function unshift<T>(
 export function shift<T>(lineList: LineList<T> | null): LineList<T> | null {
   return cdr(lineList);
 }
+
+export function pop<T>(lineList: LineList<T> | null): LineList<T> | null {
+  if (!lineList || !cdr(lineList)) {
+    return null;
+  } else {
+    return cons(car(lineList), pop(cdr(lineList)));
+  }
+}
