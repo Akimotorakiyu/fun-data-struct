@@ -50,3 +50,14 @@ export function pop<T>(lineList: LineList<T>): LineList<T> {
     return cons(car(lineList), pop(cdr(lineList)));
   }
 }
+
+export function getIndex<T>(
+  lineList: LineList<T>,
+  index: number
+): T | undefined {
+  if (isEmptyLineList(lineList) || index < 0) {
+    return undefined;
+  } else {
+    return index === 0 ? car(lineList) : getIndex(cdr(lineList), index - 1);
+  }
+}
