@@ -50,3 +50,17 @@ export function cdr<T>(lineList: LineList<T>): LineList<T> {
 }
 
 export const next = cdr;
+
+export function setCar<T>(
+  lineList: NotEmptyLineList<T>,
+  value: T
+): NotEmptyLineList<T> {
+  return cons(value, cdr(lineList));
+}
+
+export function setCdr<T>(
+  lineList: NotEmptyLineList<T>,
+  value: LineList<T>
+): NotEmptyLineList<T> {
+  return cons(car(lineList), value);
+}
