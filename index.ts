@@ -36,7 +36,11 @@ export function unshift<T>(
 }
 
 export function shift<T>(lineList: LineList<T>): LineList<T> {
-  return cdr(lineList);
+  if (isEmptyLineList(lineList)) {
+    return emptyLineList;
+  } else {
+    return cdr(lineList);
+  }
 }
 
 export function pop<T>(lineList: LineList<T>): LineList<T> {

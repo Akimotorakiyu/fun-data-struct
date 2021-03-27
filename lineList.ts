@@ -45,8 +45,8 @@ export function car<T>(lineList: NotEmptyLineList<T>): T {
 
 export const current = car;
 
-export function cdr<T>(lineList: LineList<T>): LineList<T> {
-  return isEmptyLineList(lineList) ? emptyLineList : lineList.next;
+export function cdr<T>(lineList: NotEmptyLineList<T>): LineList<T> {
+  return lineList.next;
 }
 
 export const next = cdr;
